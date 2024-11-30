@@ -5,7 +5,7 @@ from app.routes import routes
 app = create_app()
 app.register_blueprint(routes)
 
-environment = os.getenv("environment")
+environment = os.getenv("ENVIRONMENT")
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

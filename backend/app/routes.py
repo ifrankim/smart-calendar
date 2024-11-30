@@ -3,7 +3,7 @@ from app.models import User, FoodItem, UserFood
 from app import db
 from datetime import datetime, timedelta
 from app.services import process_image
-
+from sqlalchemy import extract
 
 routes = Blueprint("routes", __name__)
 
@@ -63,7 +63,6 @@ def add_user_food():
         user_id=user_id,
         food_item_id=food_item_id,
         expiration_date=expiration_date,
-        adjustments=[],
     )
     db.session.add(user_food)
     db.session.commit()
@@ -128,12 +127,20 @@ def get_food_item_by_name():
 # Rota para listar as comidas associadas a um usuário
 @routes.route("/get_user_foods/<int:user_id>", methods=["GET"])
 def get_user_foods(user_id):
-    user_foods = UserFood.query.filter_by(user_id=user_id).all()
+    current_month = datetime.now().month
+    current_year = datetime.now().year
+    user_foods = (
+        UserFood.query.filter_by(user_id=user_id)
+        .filter(
+            extract("month", UserFood.expiration_date) == current_month,
+            extract("year", UserFood.expiration_date) == current_year,
+        )
+        .all()
+    )
     result = [
         {
             "food_name": uf.food_item.name,
-            "expiration_date": uf.expiration_date.date().isoformat(),
-            "adjustments": uf.adjustments,
+            "expiration_date": uf.expiration_date.isoformat(),
         }
         for uf in user_foods
     ]
