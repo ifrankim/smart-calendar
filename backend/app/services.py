@@ -34,7 +34,6 @@ Return the result in the following JSON format:
 
 {
     "food": "<detected food item>",
-    "is_refrigirated": "<iffood item is typically stored in a refrigerator or left outdoors>"
     "shelf_life": "<number of days as an integer>"
 }
 
@@ -47,11 +46,13 @@ Return the result in the following JSON format:
 **Expected Output:**
 {
 “food”: “banana”,
-"is_refrigirated": "false",
 “shelf_life”: “2”
 }
 
-Ensure the JSON is strictly formatted without additional comments or data. If multiple items are detected, return one JSON object for each food item.""",
+Ensure the JSON is strictly formatted without additional comments or data. If multiple items are detected, return only ONE JSON object for only one of the food item.
+
+If no food is detected, return the JSON with empty strings
+""",
                     },
                     {
                         "type": "image_url",
@@ -69,7 +70,7 @@ Ensure the JSON is strictly formatted without additional comments or data. If mu
     #     "shelf_life": "7"
     # }
     # ```"""
-    print(content.replace("\n", "").replace("```json", "").replace("```", "").strip())
+    print(content)
     parsed_response = json.loads(
         content.replace("\n", "").replace("```json", "").replace("```", "").strip()
     )
