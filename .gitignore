@@ -1,3 +1,8 @@
 .env
 backend/.env
 backend/app/__pycache__
+frontend/__pycache__
+frontend/controllers/__pycache__
+frontend/models/__pycache__
+frontend/views/__pycache__
+frontend/waveshare_epd/__pycache__
