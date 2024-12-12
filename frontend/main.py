@@ -11,7 +11,7 @@ def capture_photo_interrupt():
     button_photo.wait_for_press()
     print("Button pressed! Capturing photo...")
     result = capture_and_process()
-    # result = {'category': None, 'food': 'pineapple', 'food_item_id': 4, 'shelf_life': 5}
+    # result = {"category": None, "food": "tomato", "food_item_id": 6, "shelf_life": 3}
     if result["food"] == "":
         pass
     else:

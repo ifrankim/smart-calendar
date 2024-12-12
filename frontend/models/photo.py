@@ -3,9 +3,12 @@ import os
 import requests
 from dotenv import load_dotenv
 
+from controllers.led_controller import LEDController
+
 load_dotenv()
 BACKEND_URL = os.getenv("BACKEND_URL", 1)
 USER_ID = int(os.getenv("USER_ID", 1))
+led_controller = LEDController()
 
 
 class Photo:
@@ -28,6 +31,7 @@ class Photo:
     def send_to_backend(file_path):
         print(file_path)
         try:
+            led_controller.start_blinking()
             print(f"Sending file: {file_path} for user_id: {USER_ID}")
             with open(file_path, "rb") as img:
                 response = requests.post(
@@ -44,4 +48,6 @@ class Photo:
             print("Error: The request timed out.")
         except requests.exceptions.RequestException as e:
             print(f"Error: An error occurred with the request: {e}")
+        finally:
+            led_controller.stop_blinking()
         return {"food": "", "shelf_life": ""}
