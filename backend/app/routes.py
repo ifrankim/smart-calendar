@@ -40,6 +40,8 @@ def scan_food():
 
         image = request.files["image"]
         detected_food = process_image(image)
+        if detected_food["food"] == "" or detected_food["shelf_life"] == "":
+            return jsonify(detected_food)
         food_name = detected_food["food"].lower()
 
         repo = FoodServiceRepository(db)
